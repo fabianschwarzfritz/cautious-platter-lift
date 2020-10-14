@@ -4,10 +4,12 @@ interface Data {
 interface Stack {
   push(data: Data): void;
   pop(): Data | undefined
+  size(): number;
 }
 interface Queue {
   enqueue(data: Data): void;
   dequeue(): Data | undefined;
+  size(): number;
 }
 class QueueNode {
   public data: Data;
@@ -16,6 +18,15 @@ class QueueNode {
 class MyQueue implements Queue {
   private first: QueueNode | undefined;
   private last: QueueNode | undefined;
+  size(): number {
+    let number = 0;
+    let t = this.first;
+    while(t!== undefined) {
+      ++number;
+      t = t.next;
+    }
+    return number;
+  }
   enqueue(data: Data): void {
     console.log(`Enqueue value ${data.value}`)
     const n = new QueueNode();
@@ -62,6 +73,15 @@ class StackNode {
 class MyStack implements Stack {
   private top: StackNode | undefined;
 
+  size(): number {
+    let number = 0;
+    let t = this.top;
+    while(t!== undefined) {
+      ++number;
+      t = t.previous;
+    }
+    return number;
+  }
   push(data: Data): void {
     console.log(`Push value: ${data.value}`)
     const n = new StackNode();
@@ -112,6 +132,7 @@ stack.print();
 stack.push({ value: -1 });
 stack.push({ value: -2 });
 stack.print();
+console.log(stack.size());
 
 console.log(`====== QUEUE`)
 const queue = new MyQueue();
@@ -135,3 +156,4 @@ console.log(queue.dequeue());
 queue.print();
 queue.enqueue({ value: 10 })
 queue.print();
+console.log(queue.size());
