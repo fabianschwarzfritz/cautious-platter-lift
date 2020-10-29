@@ -80,8 +80,8 @@ What if you cannot use additional data structures?
 
 // We start to iterate over the string and store each character into a hashmap.
 // In case this hash value has already a value, we know it already exists.
-const goodInput = "123456";
-const badInput = "1234346";
+const goodInput11 = "123456";
+const badInput11 = "1234346";
 
 function uniqueCharacters(input: string): boolean {
     const arr = new Array();
@@ -97,6 +97,40 @@ function uniqueCharacters(input: string): boolean {
 }
 
 console.log("Time complexity: O(n). Space complexity: O(1)");
-console.log(uniqueCharacters(goodInput));
-console.log(uniqueCharacters(badInput));
+console.log(uniqueCharacters(goodInput11));
+console.log(uniqueCharacters(badInput11));
 
+printNewChapter("Exercise 1.2", `
+Reverse a string
+`);
+
+const input12 = "12345";
+const expected12 = "54321";
+
+function reverse(s: string): string {
+    const tmp = new Array(s.length);
+    for (let index = 0; index < s.length; index++) {
+        const insertIndex = s.length - index - 1
+        tmp[insertIndex] = s[index];
+    }
+    const result = tmp.join("");
+    return result;
+}
+
+console.log(reverse(input12));
+console.log(reverse(input12) === expected12);
+
+function reverseInplace(s: string): string {
+    const tmp = s.split("");
+    for(let index = 0; index < s .length; index++) {
+        const insertIndex = s.length - index - 1;
+        const t = tmp[insertIndex]
+        tmp[insertIndex] = tmp[index];
+        tmp[index] = t;
+    }
+    const result = tmp.join("");
+    return result;
+}
+
+console.log(reverse(input12));
+console.log(reverse(input12) === expected12);
