@@ -155,9 +155,32 @@ function isPermutation(a: string, b: string): boolean {
     return true;
 }
 
+function isPermutationSimple(a: string, b: string): boolean  {
+    if(a.length === 0 || b.length === 0) {
+        return false;
+    }
+    if(a.length !== b.length) {
+        return false;
+    }
+    const sortedA = a.split("").sort();
+    const sortedB = b.split("").sort();
+    return arrayEquals(sortedA, sortedB);
+}
+
+function arrayEquals(a, b) {
+    return Array.isArray(a) &&
+      Array.isArray(b) &&
+      a.length === b.length &&
+      a.every((val, index) => val === b[index]);
+}
+
 console.log(isPermutation("", ""))
 console.log(isPermutation("asdf", "asd"))
 console.log(isPermutation("asdf", "fds"))
 console.log(isPermutation("asdf", "dsaf"))
 console.log(isPermutation("af", "dsaf"))
 console.log(isPermutation("asdf", "fdsa"))
+console.log("-----------")
+console.log(isPermutationSimple("", ""))
+console.log(isPermutationSimple("asdf", "asd"))
+console.log(isPermutationSimple("asdf", "fdsa"))
