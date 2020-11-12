@@ -180,7 +180,79 @@ console.log(isPermutation("asdf", "fds"))
 console.log(isPermutation("asdf", "dsaf"))
 console.log(isPermutation("af", "dsaf"))
 console.log(isPermutation("asdf", "fdsa"))
-console.log("-----------")
+console.log("-");
 console.log(isPermutationSimple("", ""))
 console.log(isPermutationSimple("asdf", "asd"))
 console.log(isPermutationSimple("asdf", "fdsa"))
+
+
+printNewChapter("Excercise 1.4", `
+Write a method to replace all spaces in a string with '%20'. You may assume that the string has sufficicent space at the end of the string to hold the additional characters, and that you are given the "true" lenght fo the string. (Note: if implementing in Java, please use a character array so that you can perform this operation in place.)
+EXAMPLE
+Input: 'Mr John Smith     ', 13
+Output: 'Mr%20John%20Smith'
+`)
+
+// The trick here is:
+// 1. we count he number of characters we want to replace in one run. We only
+//    count with the wordlenth given to us.
+// 2. Then iterate in reverse order through the string and replace the
+//    occurrences of the char. We start backwards at the posistion (length)
+//    that is given to us. With this, we don't overwrite more potential
+//    whitespaces.
+// --> The loop iterates with counter i on the original array
+// --> we use the calculated newlength counter to write the replacements.
+//
+// this algorithm works, because there's enough space in the end of the string
+// to work with and we can use two counters in the replacemnt: one pointing to the
+// letters we want to replace, and the other one pointing to the position to write
+// the letters to.
+
+// Questions: in-place operation might be faster, we should do that.
+function encodeSpaces(input: string, length: number) {
+    let result: string[] = input.split('');
+
+    let spaces = 0;
+    for(let i = 0; i < length;  i++) {
+        if(result[i]=== ' ') {
+            spaces++;
+        }
+    }
+
+    let newLength = length -  spaces + spaces * 3;
+
+    for(let i = length - 1; i >=0; i--) {
+        if(result[i] ===  ' ') {
+            result[newLength - 1] = '0';
+            result[newLength - 2] = '2';
+            result[newLength - 3] = '%';
+            newLength = newLength - 3;
+        } else {
+            result[newLength  - 1] = result[i];
+            newLength = newLength - 1;
+        }
+    }
+    return result.join('');
+
+    // FIRST TRY. WRONG, as not possible in-place.
+    // const removeSymbol = ' ';
+    // const insertSymbol = '%20';
+    // for(let i = 0; i < length; i++) {
+    //     const char = result[i];
+    //     if(char === removeSymbol) {
+    //         result[i]. = 
+
+    //         // We need to calculate the new position wherwe we want to continue to look into the string
+    //         const left = i;
+    //         const right = i +1;
+    //         result = [result.slice(0, left), insertSymbol, result.slice(right)].join('');
+    //         i = i + insertSymbol.length - removeSymbol.length;
+    //     }
+    // }
+    // console.log(`'${result}'`);
+    // return result;
+}
+
+console.log(encodeSpaces("Mr John Smith    ", 13));
+console.log("Mr%20John%20Smith")
+console.log(encodeSpaces("Mr John Smith    ", 13) === "Mr%20John%20Smith");
