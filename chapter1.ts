@@ -134,3 +134,30 @@ function reverseInplace(s: string): string {
 
 console.log(reverse(input12));
 console.log(reverse(input12) === expected12);
+
+printNewChapter("Excercise  1.3", `
+Given two strings, write a method to decide if one is a permutation of the other
+`);
+
+function isPermutation(a: string, b: string): boolean {
+    if(a.length === 0 || b.length === 0) {
+        return false;
+    }
+    if(a.length !== b.length) {
+        return false;
+    }
+    for(let forward = 0; forward<a.length; forward++) {
+        const backward = a.length - forward - 1;
+        if(a[forward] !== b[backward]) {
+            return false;
+        }
+    }
+    return true;
+}
+
+console.log(isPermutation("", ""))
+console.log(isPermutation("asdf", "asd"))
+console.log(isPermutation("asdf", "fds"))
+console.log(isPermutation("asdf", "dsaf"))
+console.log(isPermutation("af", "dsaf"))
+console.log(isPermutation("asdf", "fdsa"))
