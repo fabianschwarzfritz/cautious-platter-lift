@@ -1,3 +1,5 @@
+declare const Buffer;
+
 // String buffer time
 // wordlength: x
 // words: n
@@ -256,3 +258,45 @@ function encodeSpaces(input: string, length: number) {
 console.log(encodeSpaces("Mr John Smith    ", 13));
 console.log("Mr%20John%20Smith")
 console.log(encodeSpaces("Mr John Smith    ", 13) === "Mr%20John%20Smith");
+
+
+printNewChapter("1.5", `
+Implement a method to perform basic  string compression using the counts of repeated characters. For example, the string aabcccccaaa would become a2b1c5a3. If the "compressed" string would not become smaller than the original string, your method should return the original string. You can assume the string hs only upper and  lower case letters  (a-z).
+`);
+
+function compressString(input:  string): string {
+    let worthIt = false;
+    const arr = [];
+    let c = -1;
+    let oldChar = '';
+    for(let i = 0; i < input.length; i++) {
+        const char = input[i];
+        if(char !== oldChar) {
+            ++c
+            arr[c] = { letter: char, count: 1 };
+            oldChar = char;
+        } else {
+            const count = arr[c]
+            ++arr[c].count
+            if(!worthIt && count.count > 2) {
+                worthIt = true;
+            }
+        }
+    }
+
+    if(!worthIt) {
+        return input;
+    }
+
+    let result: string = "";
+    for(let a = 0; a < arr.length; a++) {
+        const count = arr[a];
+            result +=  count.letter + count.count;
+
+    }
+    return result;
+}
+
+console.log("abc", "\t\t", compressString("abc"));
+console.log("aabc", "\t\t",  compressString("aabc"));
+console.log("a2b1c5a3", "\t",  compressString("aabcccccaaa"));
