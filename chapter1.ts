@@ -264,39 +264,28 @@ printNewChapter("1.5", `
 Implement a method to perform basic  string compression using the counts of repeated characters. For example, the string aabcccccaaa would become a2b1c5a3. If the "compressed" string would not become smaller than the original string, your method should return the original string. You can assume the string hs only upper and  lower case letters  (a-z).
 `);
 
-function compressString(input:  string): string {
-    let worthIt = false;
-    const arr = [];
-    let c = -1;
-    let oldChar = '';
-    for(let i = 0; i < input.length; i++) {
-        const char = input[i];
-        if(char !== oldChar) {
-            ++c
-            arr[c] = { letter: char, count: 1 };
-            oldChar = char;
-        } else {
-            const count = arr[c]
-            ++arr[c].count
-            if(!worthIt && count.count > 2) {
-                worthIt = true;
-            }
+function compressBad(input:  string): string {
+    let result = "";
+    let last = input[0];
+    let count = 1;
+
+    for(let i = 1; i < input.length; i++) {
+        if(input[i] !== last) { // Insert char cound and update last char
+            result += last + "" + count;
+            last = input.charAt(i);
+            count = 1;
+        } else { // Found repeating char
+            ++count;
         }
     }
+    result += last + count;
 
-    if(!worthIt) {
-        return input;
+    if(result.length < input.length) {
+        return result;
     }
-
-    let result: string = "";
-    for(let a = 0; a < arr.length; a++) {
-        const count = arr[a];
-            result +=  count.letter + count.count;
-
-    }
-    return result;
+    return input;
 }
 
-console.log("abc", "\t\t", compressString("abc"));
-console.log("aabc", "\t\t",  compressString("aabc"));
-console.log("a2b1c5a3", "\t",  compressString("aabcccccaaa"));
+console.log("abc", "\t\t", compressBad("abc"));
+console.log("aabc", "\t\t",  compressBad("aabc"));
+console.log("a2b1c5a3", "\t",  compressBad("aabcccccaaa"));
