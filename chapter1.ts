@@ -270,25 +270,39 @@ Implement a method to perform basic  string compression using the counts of repe
 // In Java we would now use a StringBuffer,
 // and use append() method to modify the string.
 function compressBad(input:  string): string {
-    let result = "";
+    // Count if compression shortens the string
+    let size: number = 0;
+    let count = 1
     let last = input[0];
-    let count = 1;
+    for(let i = 1; i < input.length; i++) {
+        if(input[i] === last) {
+            ++count;
+        } else {
+            last = input[i];
+            size += 1 + count.toString().length;
+            count = 1;
+        }
+    }
+    size += 1 + count.toString().length;
+    if(size => input.length) {
+        return input;
+    }
+
+    // Continue with compression
+    let result = "";
+    last = input[0];
+    count = 1;
 
     for(let i = 1; i < input.length; i++) {
-        if(input[i] !== last) { // Insert char cound and update last char
+        if(input[i] === last) { // Found repeating char
+            ++count;
+        } else { // Insert char cound and update last char
             result += last + "" + count;
             last = input.charAt(i);
             count = 1;
-        } else { // Found repeating char
-            ++count;
         }
     }
-    result += last + count;
-
-    if(result.length < input.length) {
-        return result;
-    }
-    return input;
+    return result + last + count;
 }
 
 console.log("abc", "\t\t", compressBad("abc"));
