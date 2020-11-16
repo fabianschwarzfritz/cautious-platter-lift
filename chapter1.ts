@@ -264,6 +264,11 @@ printNewChapter("1.5", `
 Implement a method to perform basic  string compression using the counts of repeated characters. For example, the string aabcccccaaa would become a2b1c5a3. If the "compressed" string would not become smaller than the original string, your method should return the original string. You can assume the string hs only upper and  lower case letters  (a-z).
 `);
 
+// This method has a super bad runtime.
+// The runtime  is pretty bad though.
+// We have a runtime O(n^2)
+// In Java we would now use a StringBuffer,
+// and use append() method to modify the string.
 function compressBad(input:  string): string {
     let result = "";
     let last = input[0];
