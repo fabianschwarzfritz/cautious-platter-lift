@@ -284,7 +284,7 @@ function compressBad(input:  string): string {
         }
     }
     size += 1 + count.toString().length;
-    if(size => input.length) {
+    if(size > input.length) {
         return input;
     }
 
@@ -305,6 +305,73 @@ function compressBad(input:  string): string {
     return result + last + count;
 }
 
+function compressInPlace(input: string): string {
+    // We would have tto do the "worth it" check as well
+    // like in the example above.
+
+
+    let result: string[] = new Array(input.length);
+    let resultIndex = 0;
+    let last = input[0];
+    let count = 1;
+
+    function setChar() {
+        result[resultIndex] = last;
+        ++resultIndex;
+        const numberChars = count.toString().split('');
+        for(const char of numberChars) {
+            result[resultIndex] = char;
+            ++resultIndex;
+        }
+    }
+
+    for(let i = 1; i < input.length; i++) {
+        if(input[i] === last) {
+            ++count;
+        } else  {
+            setChar();
+            last = input.charAt(i);
+            count = 1;
+        }
+    }
+    setChar();
+    return result.join('').toString();
+}
+
 console.log("abc", "\t\t", compressBad("abc"));
 console.log("aabc", "\t\t",  compressBad("aabc"));
 console.log("a2b1c5a3", "\t",  compressBad("aabcccccaaa"));
+
+console.log("abc", "\t\t", compressInPlace("abc"));
+console.log("aabc", "\t\t",  compressInPlace("aabc"));
+console.log("a2b1c5a3", "\t",  compressInPlace("aabcccccaaa"));
+
+printNewChapter('1.6',`
+Given an image represented by an NxN matrix, where each pixel in the image is 4 bytes
+, write a method to rotate the image by 90 degrees. Can you do this in place?
+`)
+
+function myRotate(input: string[][]): void {
+    // We could add validation/input checks here, but we just assume it's right for now.
+    const maxLength = input.length;
+    // Idea: iterate over x and y at the same time and change
+    for(let x = 0; x < maxLength; x++) {
+        for(let y = x; y < maxLength; y++) {
+            if(x === y) { continue } // No need to rotate the diagonal
+            console.log(`x: ${x}, y: ${y}, input[x][y]: ${input[x][y]}, input[y][x]: ${input[y][x]}` )
+            const tmp = input[x][y];
+            input[x][y] = input[y][x];
+            input[y][x] = tmp;
+        }
+    }
+}
+
+const input = [
+    ["1", "2", "3", "4"], 
+    ["1", "2", "3", "4"], 
+    ["1", "2", "3", "4"], 
+    ["1", "2", "3", "4"], 
+];
+console.log(input);
+myRotate(input);
+console.log(input);
