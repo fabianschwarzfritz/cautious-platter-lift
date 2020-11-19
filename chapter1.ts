@@ -351,7 +351,8 @@ Given an image represented by an NxN matrix, where each pixel in the image is 4 
 , write a method to rotate the image by 90 degrees. Can you do this in place?
 `)
 
-function myRotate(input: string[][]): void {
+// FAIL! Wrong solution. This is mirroring the matrix - we want to rotate it!!!
+function myWrongRotate(input: string[][]): void {
     // We could add validation/input checks here, but we just assume it's right for now.
     const maxLength = input.length;
     // Idea: iterate over x and y at the same time and change
@@ -366,12 +367,42 @@ function myRotate(input: string[][]): void {
     }
 }
 
+function myRotate(input: string[][]): void {
+    // We start with swapping the outer most layer
+    for(let layer = 0; layer < input.length/2; ++layer) {
+        const first = layer;
+        const last = input.length - 1 - first;
+        for(let i = first; i < last; ++i) {
+            const offset = i - first;
+            // save top
+            const top = input[first][i];
+            // left -> top
+            input[first][i] = input[last-offset][first];
+            // bottom -> left
+            input[last-offset][first] = input[last][last-offset]
+            // right -> bottom
+            input[last][last-offset] = input[i][last];
+            // top -> right
+            input[i][last] = top;
+        }
+    }
+}
+
 const input = [
     ["1", "2", "3", "4"], 
-    ["1", "2", "3", "4"], 
-    ["1", "2", "3", "4"], 
-    ["1", "2", "3", "4"], 
+    ["a", "b", "c", "d"], 
+    ["!", "@", "#", "$"], 
+    ["w", "x", "y", "z"], 
 ];
+console.log("input:")
 console.log(input);
+console.log("Actual:")
 myRotate(input);
-console.log(input);
+console.log(input)
+console.log("Desired:")
+console.log([
+    ["w", "!", "a", "1"], 
+    ["x", "@", "b", "2"], 
+    ["y", "#", "c", "3"], 
+    ["z", "$", "d", "4"]
+]);
