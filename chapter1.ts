@@ -406,3 +406,74 @@ console.log([
     ["y", "#", "c", "3"], 
     ["z", "$", "d", "4"]
 ]);
+
+printNewChapter("1.7", `
+Write an algorithm such that if an element in an MxN matrix is 0, it's entire row and column are set to 0
+`);
+
+function setMatrixZero(matrix: number[][]) {
+    function setRowZero(row: number) {
+        for (let i = 0; i < matrix[0].length; i++) {
+            matrix[row][i] = 0;
+        }
+    }
+    function setColumnZero(column: number) {
+        for (let i = 0; i < matrix.length; i++) {
+            console.log(column);
+            matrix[i][column] = 0;
+        }
+    }
+
+    const zeroColumns = [];
+    const zeroRows = [];
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[0].length; j++) {
+           if(matrix[i][j] === 0) {
+               zeroRows.push(i);
+               zeroColumns.push(j);
+           }
+        }
+    }
+
+    zeroColumns.forEach((j) => {
+        setColumnZero(j);
+    });
+    zeroRows.forEach((i) => {
+        setRowZero(i);
+    });
+
+}
+
+let input17 = [
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+];
+console.log("Input:");
+console.log(input17);
+console.log("Actual:");
+setMatrixZero(input17);
+console.log(input17);
+console.log("Expected:");
+console.log([
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+]);
+
+input17 = [
+    [1, 2, 3, 4, 5],
+    [1, 2, 3, 4, 5],
+    [1, 0, 3, 4, 5],
+];
+console.log("Input:");
+console.log(input17);
+console.log("Actual:");
+setMatrixZero(input17);
+console.log(input17);
+console.log("Expected:");
+console.log([
+    [1, 0, 3, 4, 5],
+    [1, 0, 3, 4, 5],
+    [0, 0, 0, 0, 0],
+]);
