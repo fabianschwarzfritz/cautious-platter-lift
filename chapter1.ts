@@ -477,3 +477,24 @@ console.log([
     [1, 0, 3, 4, 5],
     [0, 0, 0, 0, 0],
 ]);
+
+printNewChapter("1.8",`
+Assume you have a method isSubstring which checks if one word is a substring of another. given two strings, s1 and s2, write code to check if s2 is a rotation of s1 using only one call to isSubstring (e.g. "watterbottle" is a rotation of "erbottlewat").
+`)
+
+function isSubstring(original: string, includeds: string): boolean {
+    return original.indexOf(includeds) !== -1;
+}
+
+
+function isRotation(original: string, rotate: string): boolean {
+    if(original.length !== rotate.length) {
+        return false;
+    }
+    const doubleoriginal = original + original;
+    return isSubstring(doubleoriginal, rotate);
+}
+
+console.log(isRotation("waterbottle", "erbottlewat"), true);
+console.log(isRotation("waterbottle", "rbottlewat"), false);
+console.log(isRotation("waterbottle", "erbottelwat"), false);
