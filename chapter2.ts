@@ -88,6 +88,7 @@ function removeDuplicatesWithBuffer(head: ListNode) {
     }
 }
 
+console.log("With buffer");
 let noDuplicates = toLinkedList([1, 2, 3, 4, 5]);
 let duplicates =  toLinkedList([1, 1, 2, 3, 2, 4, 2, 5]);
 removeDuplicatesWithBuffer(noDuplicates)
@@ -95,14 +96,30 @@ console.log(toArray(noDuplicates));
 removeDuplicatesWithBuffer(duplicates)
 console.log(toArray(duplicates));
 
-function removeDuplicates(head: ListNode) {
-    return head;
+// TODO the solution here proposes to use iteration.
+// currently, I am using recursion here.
+function removeDuplicatesInPlace(head: ListNode) {
+    if(!head.next) {
+        return;
+    }
+    let iterator = head;
+    while(iterator.next) {
+        if(head.data === iterator.next.data) {
+            iterator.next = iterator.next.next;
+        }
+        iterator = iterator.next;
+    }
+    if(head.data === head.next.data) {
+        head.next = head.next.next;
+    }
+    removeDuplicatesInPlace(head.next);
 }
 
+console.log("Inplace");
 noDuplicates = toLinkedList([1, 2, 3, 4, 5]);
 duplicates =  toLinkedList([1, 1, 2, 3, 2, 4, 2, 5]);
-removeDuplicates(noDuplicates)
+removeDuplicatesInPlace(noDuplicates)
 console.log(toArray(noDuplicates));
-removeDuplicates(duplicates)
+removeDuplicatesInPlace(duplicates)
 console.log(toArray(duplicates));
 
