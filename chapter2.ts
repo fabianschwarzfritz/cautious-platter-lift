@@ -46,7 +46,7 @@ printNewChapter("2.1", `
 Write code to remove duplicates from an unsorted linkd list
 FOLLOW UP
 How would you solve this problem if a temporary buffer is not allowed?
-`)
+`);
 function toLinkedList(arr: number[]) {
     if (arr.length === 0) {
         return undefined;
@@ -126,7 +126,7 @@ console.log(toArray(duplicates));
 
 printNewChapter("2.2", `
 Implement an algorithm to find the kth to last element of a singly linked list.
-`)
+`);
 
 interface IntWrapper {
     value: number;
@@ -189,7 +189,7 @@ given only access to that node
 EXAMPLE
 Input: the node c from the linked list a->b->c->d->e
 Result: nothing is returned, but the new linked list looks like a->b->d->e
-`)
+`);
 function deleteMiddle(node: ListNode, todelete: number): void {
   // Deleting the last node could be handled with a dummy
   // node. Currently we can't delete these nodes.
@@ -206,3 +206,51 @@ function deleteMiddle(node: ListNode, todelete: number): void {
   node.next = next.next;
 }
 
+printNewChapter("2.4",`
+Write code to partition a linked list around a value x,
+such that all nodes less than x come before all nodes greater
+than equal to x.
+`);
+function partition(node: ListNode, p: number) {
+  // We will keep two different lists, and merge them in
+  // the end.
+  let smallerstart = undefined;
+  let smallerend = undefined;
+  let biggerstart = undefined;
+  let biggerend = undefined;
+  while(node !== undefined) {
+    const next = node.next;
+    node.next = undefined;
+    if(node.data < p) {
+      if(smallerstart === undefined) {
+        smallerstart = node;
+        smallerend = node;
+      } else {
+        smallerend.next = node;
+        smallerend = smallerend.next;
+      }
+    } else {
+      if(biggerstart === undefined) {
+        biggerstart = node;
+        biggerend = node;
+      } else {
+        biggerend.next = node;
+        biggerend = biggerstart.next;
+      }
+    }
+    node = next;
+  }
+
+  // now we have two lists, one with the smaller
+  // and one with the bigger element
+  // Because we kept track of begin and end of both
+  // lists, we can assemble them
+  const result = smallerstart;
+  smallerend.next = biggerstart;
+  return result;
+}
+const fourlist = toLinkedList([1,5,2,1,7,8,3,1]);
+console.log(toArray(fourlist));
+partition(fourlist, 6);
+console.log(toArray(fourlist));
+//const partitioned = [1,5,2,5,6,9,7,8,9]; // partitioning by 6
