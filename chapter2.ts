@@ -123,3 +123,86 @@ console.log(toArray(noDuplicates));
 removeDuplicatesInPlace(duplicates)
 console.log(toArray(duplicates));
 
+
+printNewChapter("2.2", `
+Implement an algorithm to find the kth to last element of a singly linked list.
+`)
+
+interface IntWrapper {
+    value: number;
+}
+
+function kLastRecursive(head: ListNode, kth: number, i: IntWrapper = {value: 0}): ListNode {
+    if(!head) {
+        return null;
+    }
+    const node = kLastRecursive(head.next, kth, i)
+    i.value = i.value + 1;
+    if(i.value === kth + 1) {
+        return head;
+    }
+    return node;
+}
+
+let list1 = toLinkedList([1,2,3,4,5,6,7,8,9]); // size 9
+console.log(kLastRecursive(list1, 1).data); // 8
+console.log(kLastRecursive(list1, 2).data); // 7
+console.log(kLastRecursive(list1, 8).data); // 1
+console.log(kLastRecursive(list1, 9)); // null
+console.log(kLastRecursive(list1, 0).data); // 9
+
+
+//function kLastIterative(head: ListNode, kth: number): void {
+//    // Setup two pointers with the right distance from each other
+//    let p1 = head;
+//    let p2 = head;
+//    let distancecounter = 0;
+//    while(p2.next) {
+//        if(distancecounter === kth) {
+//            // WE have the right distance between the counters;
+//            break;
+//        }
+//        ++distancecounter;
+//        p2.next = p2.next.next;
+//    }
+//
+//    if(distancecounter !== kth) {
+//        throw new Error("The list is too small");
+//    }
+//
+//    while(p2.next) {
+//
+//        
+//    }
+//}
+
+//list1 = toLinkedList([1,2,3,4,5,6,7,8,9]); // size 9
+//console.log(kLastIterative(list1, 1).data); // 8
+//console.log(kLastIterative(list1, 2).data); // 7
+//console.log(kLastIterative(list1, 8).data); // 1
+//console.log(kLastIterative(list1, 9)); // null
+//console.log(kLastIterative(list1, 0).data); // 9
+
+printNewChapter("2.3", `
+Implement an algorithm to delete a node in the middle of a singly linked list,
+given only access to that node
+EXAMPLE
+Input: the node c from the linked list a->b->c->d->e
+Result: nothing is returned, but the new linked list looks like a->b->d->e
+`)
+function deleteMiddle(node: ListNode, todelete: number): void {
+  // Deleting the last node could be handled with a dummy
+  // node. Currently we can't delete these nodes.
+  if(node === undefined || node.next === undefined) {
+    throw new Error("Can't delete the last node with this function");
+  }
+  // We're only getting in the node itself to delete.
+  // Hence we can't change the reference of the previous node
+  // pointing to that node.
+  // Therefore we copy over the data of the node next to the
+  // one to be deleted and then change the reference.
+  const next = node.next;
+  node.data = next.data;
+  node.next = next.next;
+}
+
