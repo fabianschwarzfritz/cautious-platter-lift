@@ -254,3 +254,62 @@ console.log(toArray(fourlist));
 partition(fourlist, 6);
 console.log(toArray(fourlist));
 //const partitioned = [1,5,2,5,6,9,7,8,9]; // partitioning by 6
+
+printNewChapter("2.5",`
+You have two numbers represented by a linked liist, where each node contains
+a single digit. The digits are stored iin reverse order, such that the 1's digit
+is at the head of the list. Write a function that adds the two numbers and returns
+the sum as a linked list.
+
+Problem is WIP
+`);
+function sum(a: ListNode, b: ListNode) {
+  let pa: ListNode = a;
+  let pb: ListNode = b;
+  let pr: ListNode = undefined;
+  while(pa !== undefined || pb !== undefined) {
+    const va = pa ? pa.data : 0;
+    const vb = pb ? pb.data : 0;
+    const isum = va + vb;
+    const uebertrag = Math.floor(isum / 10) * 10;
+    const t = isum % 10;
+    if(!pr) {
+      pr = new ListNode(t);
+    } else {
+      pr.next = new ListNode(t);
+    }
+    if(pa) {
+      pa = pa.next;
+    }
+    if(pb) {
+      pb = pb.next;
+    }
+    pr = pr.next;
+  }
+  return pr;
+}
+
+const s = sum(
+  toLinkedList([7,1,6]),
+  toLinkedList([5, 8, 2])
+);
+console.log(toArray(s));
+
+// Recursive list reversal
+function reverse(l: ListNode) {
+  if(!l || !l.next) {
+    return l;
+  }
+
+  const newNode = reverse(l.next);
+  l.next.next = l;
+  l.next = undefined;
+  return newNode;
+}
+
+const l = toLinkedList([1, 2, 3]);
+const r = toLinkedList([3, 2, 1]);
+console.log(reverse(l));
+console.log(r);
+
+
