@@ -266,35 +266,52 @@ Problem is WIP
 function sum(a: ListNode, b: ListNode) {
   let pa: ListNode = a;
   let pb: ListNode = b;
-  let pr: ListNode = undefined;
+  let prhead: ListNode = undefined;
+  let ut = 0;
   while(pa !== undefined || pb !== undefined) {
+    console.log(`pa: ${pa}, pb: ${pb}`);
     const va = pa ? pa.data : 0;
     const vb = pb ? pb.data : 0;
-    const isum = va + vb;
-    const uebertrag = Math.floor(isum / 10) * 10;
-    const t = isum % 10;
-    if(!pr) {
-      pr = new ListNode(t);
+    const isum = va + vb + ut;
+    console.log(`isum ${isum}`);
+    let t = 0;
+    // Uebertrag
+    ut = Math.floor(isum / 10);
+    // This position
+    t = isum % 10;
+
+    if(!prhead) {
+      prhead = new ListNode(t);
+      console.log(`append: ${t}`);
     } else {
-      pr.next = new ListNode(t);
+      prhead.append(t);
+      console.log(`append: ${t}`);
     }
+
     if(pa) {
       pa = pa.next;
     }
     if(pb) {
       pb = pb.next;
     }
-    pr = pr.next;
   }
-  return pr;
+  // don't forget to add the last uebertrag
+  if(ut !== 0) {
+    const t = Math.floor(ut / 10)
+    prhead.append(t);
+    console.log(`append: ${t}`);
+  }
+  return prhead;
 }
 
 const s = sum(
-  toLinkedList([7,1,6]),
+  toLinkedList([7, 1, 6]),
   toLinkedList([5, 8, 2])
 );
 console.log(toArray(s));
+console.log(`Expected: 902`);
 
+console.log(`Recursive list reversal`);
 // Recursive list reversal
 function reverse(l: ListNode) {
   if(!l || !l.next) {
